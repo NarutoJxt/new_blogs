@@ -19,5 +19,5 @@ urlpatterns = [
     path(r"get_code/",get_code,name="get_code"),
     path("update_email/",update_email,name="update_email"),
     path('modify_pwd/',modify_password,name="modify_pwd"),
-    path("friend_loop/",AttentionView.as_view(),name="friend_loop")
+    path("attention/",AttentionView.as_view(),name="friend_loop"),
 ]

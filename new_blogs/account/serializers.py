@@ -2,7 +2,7 @@ from django.contrib.auth.hashers import make_password
 from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
 
-from account.models import BlogUser
+from account.models import BlogUser,Attention
 
 
 class UserRegisterSerializer(ModelSerializer):
@@ -19,3 +19,18 @@ class UserLoginSerializer(ModelSerializer):
     class Meta:
         model = BlogUser
         fields = ["username","password"]
+
+class UserInfoSerializer(ModelSerializer):
+    class Meta:
+        model = BlogUser
+        fields = ["username","pk"]
+
+class AttentionSerializer(ModelSerializer):
+    class Meta:
+        model = Attention
+        fields = ["user","follower"]
+
+class UserForArticleDetailSerializer(ModelSerializer):
+    class Meta:
+        model = BlogUser
+        fields = ["username","avatar","id"]

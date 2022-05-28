@@ -8,11 +8,15 @@ from django.utils.timezone import now
 from account.models import BlogUser
 
 
+
 class ArticleCategory(models.Model):
     category = models.CharField(max_length=255, blank=False, null=False, verbose_name="类型")
     created_time = models.DateTimeField(auto_now_add=True, verbose_name="创建时间")
     updated_time = models.DateTimeField(auto_now=True, verbose_name="更新时间")
-    author = models.ForeignKey(to=BlogUser,on_delete=models.CASCADE,related_name="article")
+    author = models.ForeignKey(to=BlogUser,on_delete=models.CASCADE,related_name="author")
+
+    def get_article_list(self):
+        return self.Article_set.all()
 
     class Meta:
         verbose_name = "文集"
@@ -28,7 +32,6 @@ class Article(models.Model):
     pub_time = models.DateTimeField("发表时间",default=now)
     status = models.CharField("文章状态",choices=STATUS,default="a",max_length=1)
     views = models.PositiveIntegerField(verbose_name="浏览量",default=0)
-    thumb_up = models.IntegerField(verbose_name="点赞数",default=0)
     category = models.ForeignKey(ArticleCategory,on_delete=models.CASCADE)
     def get_absolute_url(self):
         return reverse(
@@ -53,11 +56,11 @@ class Article(models.Model):
         comments_dict = {}
         header = []
         for comment in comment_list:
-            comments_dict[comment] = []
+            comments_dict[comment.id] = []
             if comment.parent_comment is None:
                 header.append(comment)
             else:
-                comments_dict[comment.parent_comment].append(comment)
+                comments_dict[comment.parent_comment.id].append(comment)
         return comments_dict,header
     def __str__(self):
         return self.title

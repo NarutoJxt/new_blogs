@@ -28,3 +28,26 @@ export const refreshToken = (params)=>{
         params
     )
 }
+export const getIndexAttentions = (params)=>{
+       return axios.get(
+        base_url + "api/attention/index/",
+           {
+               params
+           }
+    )
+}
+export const cancelConcerned = (params)=>{
+    return axios.post(
+        base_url + "api/attention/",
+        params
+    )
+}
+
+export const getFriendLoopData = (params)=>{
+    return axios.get(
+        base_url + "api/attention/",
+        {
+            params:params
+        }
+    )
+}

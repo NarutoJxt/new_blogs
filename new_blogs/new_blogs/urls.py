@@ -15,17 +15,19 @@ Including another URLconf
 """
 
 from django.conf import settings
+from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, re_path, include
 from django.views.static import serve
 from rest_framework.routers import DefaultRouter
 
-from account.views import UserViewSet
-from rest_framework_jwt.views import obtain_jwt_token, refresh_jwt_token
+from account.views import UserViewSet,AttentionViewSet,obtain_jwt_token
+from rest_framework_jwt.views import  refresh_jwt_token
 
 
 router = DefaultRouter()
 router.register('users', UserViewSet)
+router.register("attention",AttentionViewSet)
 
 urlpatterns = [
     re_path('admin/?', admin.site.urls),
@@ -33,8 +35,12 @@ urlpatterns = [
     re_path(r"^login/$",obtain_jwt_token),
     path("refresh_token/",refresh_jwt_token),
     path("blog/",include("blogs.urls")),
+    path("compliment/",include("compliment.urls")),
+    path("collection/",include("collection.urls")),
+    path("comment/",include("comment.urls")),
     # re_path(r'^auth/', include('rest_framework_social_oauth2.urls')),
     path('', include('social_django.urls', namespace='social')),
     path(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    re_path(r'/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT})
+    re_path(r'/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
 ]
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

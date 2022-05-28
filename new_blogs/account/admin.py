@@ -13,9 +13,9 @@ class BlogUserAdmin(admin.ModelAdmin):
     search_fields = ["username","email","gender"]
     view_on_site = True
 class AttentionAdmin(admin.ModelAdmin):
-    list_display = ["user","B_follower"]
+    list_display = ["user","follower"]
     list_display_links = ["user"]
-    list_select_related = ["B_follower"]
+    list_select_related = ["follower"]
 
 
 

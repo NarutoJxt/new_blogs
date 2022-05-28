@@ -3,3 +3,5 @@ export const SET_LOGIN_ACTION = 'SET_LOGIN_ACTION'
 export const SET_USER_INFO = 'SET_USER_INFO'
 export const SET_SCROLL_TOP = 'SET_SCROLL_TOP'
 export const  SET_TOKEN = "SET_TOKEN"
+export const GET_USER_INFO = "GET_USER_INFO"
+export const REFRESH_COMMENTS = "REFRESH_COMMENTS"

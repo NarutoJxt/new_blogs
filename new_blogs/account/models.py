@@ -31,8 +31,8 @@ class BlogUser(AbstractUser):
     gender = models.CharField(
         default="1",verbose_name="性别",choices=GENDER,max_length=6
     )
-    head_path = models.ImageField(
-        upload_to="static/image/head/",verbose_name="头像",default=r"static\image\avatar.png",max_length=128
+    avatar = models.ImageField(
+        upload_to="static/image/head/",verbose_name="头像",default=r"\image\avatar.jpeg",max_length=128
     )
     signature = models.TextField(
         verbose_name="签名",
@@ -51,7 +51,7 @@ class BlogUser(AbstractUser):
 
 class Attention(models.Model):
     user = models.ForeignKey(BlogUser,verbose_name="用户",on_delete=models.CASCADE,related_name="user")
-    B_follower = models.ForeignKey(BlogUser,verbose_name="被关注者",on_delete=models.CASCADE,related_name="follower")
+    follower = models.ForeignKey(BlogUser,verbose_name="被关注者",on_delete=models.CASCADE,related_name="follower")
     class Meta:
-        db_table = "关注"
+        db_table = "attention"
         verbose_name = "关注"

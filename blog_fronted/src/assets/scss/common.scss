@@ -1,0 +1,66 @@
+	.msg-right {
+		.msg-right-title {
+			line-height: 2;
+			font-size: 14px;
+			font-weight: bold;
+			padding-bottom: 20px;
+			border-bottom: 1px solid #f0f0f0;
+		}
+		.msg-right-content {
+			.empty {
+				width: 130px;
+				text-align: center;
+				font-size: 14px;
+				font-weight: bold;
+				margin: 150px auto 0;
+				img {
+					width: 100%;
+					margin-bottom: 20px;
+				}
+			}
+		}
+	}
+	
+	.atten-right-top {
+		display: flex;
+	  margin-bottom: 14px;
+		img {
+			width: 80px;
+			height: 80px;
+			display: block;
+			cursor: pointer;
+			border: 1px solid #ddd;
+			border-radius: 10%;
+			margin-right: 20px;
+		}
+	
+		.name {
+			flex: 1;
+	
+			.name-theme {
+				font-weight: bold;
+				font-size: 22px;
+				margin-top: 10px;
+				margin-bottom: 10px;
+				cursor: pointer;
+			}
+	
+			.name-info {
+				color: #969696;
+	
+				.user {
+					color: #3194d0;
+				}
+			}
+		}
+	
+		.btns {
+			margin-top: 20px;
+	
+			button {
+				&:first-child {
+					margin-right: 20px;
+				}
+			}
+		}
+	}

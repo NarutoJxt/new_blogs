@@ -6,9 +6,17 @@
           <li>
             <a class="logo">笔映</a>
           </li>
-          <li>首页</li>
+          <li>
+            <a href="/index" class="header-link">
+            首页
+          </a>
+          </li>
           <li>发现</li>
-          <li>关注</li>
+          <li>
+            <a href="/attention" class="header-link">
+              关注
+            </a>
+          </li>
           <li>消息</li>
           <li>
             <input
@@ -19,7 +27,7 @@
           </li>
           <li>
             <el-dropdown class="dropdown" >
-              <img width="60px" height="60px" style="border-radius: 50%;margin: 0px 24px 0px 16px" src="../assets/header/avatar.jpeg">
+              <img width="60px" height="60px" style="border-radius: 50%;position: relative;bottom: 20px" src="../assets/header/avatar.jpeg">
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item icon="el-icon-plus">黄金糕</el-dropdown-item>
                 <el-dropdown-item icon="el-icon-circle-plus">狮子头</el-dropdown-item>
@@ -37,11 +45,10 @@
         </ul>
       </div>
     </el-header>
-    <el-main>
+    <el-main style="margin-top: 10px">
       <router-view/>
+      <router-view style="background-color: #f9f9f9;" name="detail"/>
     </el-main>
-    <el-footer>
-    </el-footer>
   </el-container>
 </template>
 
@@ -73,39 +80,32 @@ export default {
 <style scoped>
 .header {
   position: fixed;
-  display: block;
   top: 0;
-  height: 20%;
+  display: block;
+  height: 10%;
   width: 100%;
-}
-
-.header-title {
-  position: relative;
-  bottom: 20px;
-  height: 60px;
+  background: white;
   border-bottom: black;
   border-bottom-width: 1px;
   border-bottom-style: dotted;
-  padding: 10px 0 20px 0;
-  vertical-align: middle;
+  z-index: 3;
 }
+
 .write-btn{
   width:150px;
-  height: 50px;
-  font-size: 20px;
+  height: 40px;
+  font-size: 18px;
   background-color: coral;
   color: white;
   border-radius: 50px;
   padding: 5px 5px 0 5px;
   position: absolute;
-  right: 13%;
-  bottom: 10%;
 }
 .header-title li {
   list-style: none;
   width: 100px;
   float: left;
-  font-size: 30px;
+  font-size: 25px;
   margin: 0 20px;
   padding: 10px;
 }
@@ -113,19 +113,23 @@ export default {
 .header-title li:first-child {
   padding: 0;
 }
+.header-link{
+  color: black;
+  text-decoration-line: none;
+}
 .dropdown{
   position: absolute;right: 5%;top: 20px
 }
 .logo {
   color: coral;
-  font-size: 50px;
+  font-size: 40px;
   margin: 0;
 }
 
 .search-input {
   width: 300px;
   border-radius: 20px;
-  height: 60px;
+  height: 40px;
   padding-left: 15px;
   border-style: dotted;
   border: none;

@@ -203,7 +203,6 @@ def deal_attention(request):
 
 
             try:
-
                 notify.send(
                     request.user,
                     recipient=recipient,
@@ -217,8 +216,8 @@ def deal_attention(request):
             return JsonResponse({
                 "result": result
             })
-class AttentionView(BaseArticleView):
-    template_name = "blogs/attention.html"
+
+class AttentionView(ListView):
     model = Artical
     paginate_by = 8
     key_prefix = "attention_{}_{}"
@@ -312,7 +311,6 @@ class AttentionView(BaseArticleView):
             except Exception as e:
                 print(e)
         else:
-
             follower_list = self.get_follower_list()
             collection_count = 0
             character_count = 0
@@ -334,6 +332,7 @@ class AttentionView(BaseArticleView):
                 is_show = True
             context["is_show"] = is_show
             return self.render_to_response(context)
+
 class PersonInfoView(UpdateView):
     template_name = "blogs/editarticle/person_info.html"
     form_class = PersonInfoForm

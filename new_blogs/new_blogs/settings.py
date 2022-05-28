@@ -43,7 +43,10 @@ INSTALLED_APPS = [
     "blogs",
     'oauth2_provider',
     'social_django',
-    "rest_framework_social_oauth2"
+    "rest_framework_social_oauth2",
+    "comment",
+    "compliment",
+    "collection"
 ]
 
 MIDDLEWARE = [
@@ -86,7 +89,7 @@ WSGI_APPLICATION = 'new_blogs.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': "new_blogs",
+        'NAME': "blog",
         "HOST":"127.0.0.1",
         "PORT":3306,
         "USER":"root",
@@ -123,7 +126,7 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.BasicAuthentication',
         'oauth2_provider.contrib.rest_framework.authentication.OAuth2Authentication',
         'rest_framework_social_oauth2.authentication.SocialAuthentication',
-    ),
+    )
 }
 AUTHENTICATION_BACKENDS = (
     'account.backend.EmailCheckBackend',
@@ -136,7 +139,8 @@ JWT_AUTH = {
     'JWT_EXPIRATION_DELTA': datetime.timedelta(days=7),
     # header的token字符串前缀
     'JWT_AUTH_HEADER_PREFIX': 'JWT',
-    'JWT_ALLOW_REFRESH': True
+    'JWT_ALLOW_REFRESH': True,
+    "JWT_RESPONSE_PAYLOAD_HANDLER":"account.utils.jwt_response_payload_handler"
 }
 # 全局设置的方法，也可在单个视图中设置
 # Internationalization
@@ -187,8 +191,8 @@ STATIC_URL = '/static/'
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 # OAUTH
-SOCIAL_AUTH_GITHUB_KEY = "0ade29cabce315979247"
-SOCIAL_AUTH_GITHUB_SECRET = "eaea1c9f6d42f028f1770f2382e98e743f76b207"
+SOCIAL_AUTH_GITHUB_KEY = "699714af6c5a16d6d922"
+SOCIAL_AUTH_GITHUB_SECRET = "b4d369b2d15420dbce6a36aa1159344237c33052"
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 MEDIA_ROOT = os.path.join(BASE_DIR,"media")

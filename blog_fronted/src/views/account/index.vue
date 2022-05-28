@@ -1,7 +1,6 @@
 <template>
 <div class="body">
   <div class="login_box">
-
       <ul class="form-header">
         <li @click="formName = 'login'">
           <h1 :class="[formName=='login'?'form-active-h1':'form-inactive-h1']">登录</h1>
@@ -21,7 +20,7 @@ import RegisterForm from "./registerForm";
 export default {
 name: "login",
   components:{LoginForm,RegisterForm},
-data(){
+  data(){
   return {
     formName:"login",
     component:LoginForm

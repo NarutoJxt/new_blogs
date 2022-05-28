@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views'
+import Article from "../views/page/article/index"
 import {getToken} from "../utils/cache";
 import backendLayout from "@/views/edit/index"
 const WHITE_LIST = ["/register","/login"]
@@ -10,7 +11,58 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    component: Home
+    component: Home,
+    redirect: "/index",
+    children:[
+      {
+        path:"/index",
+        name:"index",
+        component:() => import("../views/page/index")
+      }
+    ]
+  },
+  {
+    path: '/',
+    name: 'Attention',
+    component: Home,
+    redirect: "/attention",
+    children:[
+      {
+        path:"attention",
+        name:"attention",
+        component:() => import("../views/attention/index")
+      }
+    ]
+  },
+  {
+    path: "/person/",
+    name:"person",
+    component: Home,
+    children: [
+      {
+        path: ":id",
+        name:"user",
+        components:{
+          default:() => import("../views/page/person/index")
+        },
+        props:{default:true,detail:false}
+      }
+    ]
+  },
+  {
+    path: "/article/detail/",
+    name:"article",
+    component: Home,
+    children: [
+      {
+        path: ":id",
+        name:"detail",
+        components:{
+          detail:Article
+        },
+        props:{default: false,detail:true}
+      }
+    ]
   },
   {
     path: '/login',
@@ -28,7 +80,7 @@ const routes = [
     children:[
       {
         path:"/edit",
-        name:"edit",
+        name:"editArticle",
         component:() => import("../views/edit/components/edit")
       }
     ]

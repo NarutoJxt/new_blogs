@@ -60,12 +60,11 @@ name: "loginForm",
             login(this.loginForm).then((response)=>{
               let  {data} = response
               var token = data.token
-              var user_info = data.user
+              var user_info = data.user_info
               this.setUserInfo(user_info)
               this.setToken(token)
               this.$router.push("/")
             }).catch((errors)=>{
-              console.log(errors)
               var error = errors.response.data
               this.loginError.usernameError = error.username ? error.username[0]:""
               this.loginError.passwordError = error.password ? error.password[0]:""
