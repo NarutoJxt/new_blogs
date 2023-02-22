@@ -129,3 +129,12 @@ export const deleteComplimentForComment = (params)=>{
         }
     )
 }
+
+export const getExtraBlogInfo = (params)=>{
+    return axios.get(
+        base_url + "blog/blogs/user/",
+        {
+            params
+        }
+    )
+}

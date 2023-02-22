@@ -124,7 +124,6 @@ export default {
             }
         )
       })
-
     },
     concernUser(index, type) {
       let param = {
@@ -135,6 +134,7 @@ export default {
         this.recommendedUsers[index].isConcerned = type
       })
     },
+
   }
 }
 </script>

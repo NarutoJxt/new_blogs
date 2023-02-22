@@ -33,4 +33,4 @@ class AttentionSerializer(ModelSerializer):
 class UserForArticleDetailSerializer(ModelSerializer):
     class Meta:
         model = BlogUser
-        fields = ["username","avatar","id"]
+        fields = ["username","avatar","id","person_instruction"]

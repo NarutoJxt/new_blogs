@@ -29,7 +29,8 @@
             <el-dropdown class="dropdown" >
               <img width="60px" height="60px" style="border-radius: 50%;position: relative;bottom: 20px" src="../assets/header/avatar.jpeg">
               <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item icon="el-icon-plus">黄金糕</el-dropdown-item>
+                <el-dropdown-item split-button icon="el-icon-plus" @click="getUserPage()">
+                  我的主页 </el-dropdown-item>
                 <el-dropdown-item icon="el-icon-circle-plus">狮子头</el-dropdown-item>
                 <el-dropdown-item icon="el-icon-circle-plus-outline">螺蛳粉</el-dropdown-item>
                 <el-dropdown-item icon="el-icon-check">双皮奶</el-dropdown-item>
@@ -57,9 +58,16 @@
 
 import {mapMutations} from "vuex";
 import {logout} from "../api/account";
+import { base_url } from '../api/settings';
 
 export default {
   name: 'Home',
+  data(){
+   return { user:{} }
+  },
+  mounted(){
+    this.$nextTick(this.getUserInfo())
+  },
   methods:{
     logout(){
       logout().then((response)=>{
@@ -73,7 +81,13 @@ export default {
     },
     ...mapMutations("login",{
         "setToken":"SET_TOKEN",
+        "getUserInfo": "GET_USER_INFO",
       })
+  },
+  watch:{
+    user:function(newVal){
+      this.userUrl = base_url + "person/" + newVal.id
+    }
   }
 }
 </script>

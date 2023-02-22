@@ -51,3 +51,10 @@ export const getFriendLoopData = (params)=>{
         }
     )
 }
+
+export const updateUser = (params)=>{
+    return axios.put(
+        base_url + "api/users/",
+        params
+    )
+}

@@ -21,7 +21,6 @@ const getters = {
     if(!state.user_info){
       state.user_info = getUserInfo()
     }
-    console.log("store",state.user_info)
     return state.user_info
   }
 }

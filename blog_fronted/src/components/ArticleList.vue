@@ -52,9 +52,6 @@
 					path: '/personalHome'
 				})
 			}
-		},
-		mounted() {
-
 		}
 	}
 </script>

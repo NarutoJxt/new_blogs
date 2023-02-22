@@ -27,7 +27,7 @@
             <div class="annotation">
               {{ article.pub_time }} &nbsp;&nbsp; 字数：{{ article.body ? article.body.length : 0 }},&nbsp;&nbsp;
               阅读：{{ article.views }}
-            </div>
+            </div>pkl
           </div>
           <div v-if="author.id !== user.id" style="position: relative;right: 170px">
               <button v-if="!isConcerned" class="circle-button" @click="concernedUser(true)">

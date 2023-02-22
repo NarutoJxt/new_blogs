@@ -46,10 +46,16 @@ class Article(models.Model):
     def viewed(self):
         self.views += 1
         self.save(update_fields=["views"])
+
     def next_article(self):
         return Article.objects.filter(id__gt=self.id).order_by("id").first()
+
     def pre_artocle(self):
         return Article.objects.filter(id__lt=self.id).order_by("id").last()
+
+    # 最新评论
+    def get_latest_comment(self):
+        return self.comment_set.order_by("-pub_time").first()
 
     def get_comment_list(self):
         comment_list = self.comment_set.filter(article=self)
@@ -62,6 +68,7 @@ class Article(models.Model):
             else:
                 comments_dict[comment.parent_comment.id].append(comment)
         return comments_dict,header
+
     def __str__(self):
         return self.title
     class Meta:

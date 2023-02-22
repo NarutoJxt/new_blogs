@@ -1,9 +1,10 @@
 import datetime
 import json
 import random
+from functools import reduce
 
+import pytz
 from django.core.paginator import Paginator
-from django.db import connection
 from django.http import JsonResponse
 from rest_framework import status
 from rest_framework.decorators import action, api_view
@@ -26,7 +27,7 @@ from compliment.models import Compliment
 from collection.models import Collection
 
 from comment.models import Comment
-
+from account.serializers import UserForArticleDetailSerializer
 from blogs.serailizer import ArticleCategoryIndexSerializer
 
 
@@ -55,6 +56,42 @@ class BlogCategoryViewSet(ModelViewSet):
 
     def get_queryset(self):
         return ArticleCategory.objects.filter(author=self.request.user)
+
+class BlogBase:
+
+    @staticmethod
+    def sort_article_by_comment(article):
+        comment = article.get_latest_comment()
+        utc = pytz.timezone('US/Pacific')
+        return comment.pub_time if comment else datetime.datetime(1970,1,1,0,0,0,tzinfo=utc)
+
+    def get_extra_article_info_by_user(self,user,condition=None):
+        #  0：最新发布 1：热门 2：最新评论
+        articles = Article.objects.all().filter(category__author=user.id)
+        if condition == 0:
+            articles = articles.order_by("-pub_time")
+        elif condition == 1:
+            articles = articles.order_by("-views")
+        elif condition == 2:
+            articles = list(sorted(articles,key=self.sort_article_by_comment))
+
+        article_list = []
+        for article in articles:
+            compliment_count = article.compliment_set.count()
+            comment_count = article.comment_set.count()
+            collection_count = article.article.count()
+            item = {
+                "title": article.title,
+                "body": article.body,
+                "pub_time": article.pub_time.strftime("%Y-%m-%d %H-%M-%S"),
+                "compliment_count": compliment_count,
+                "comment_count": comment_count,
+                "views": article.views,
+                "collection_count": collection_count,
+                "id":article.id
+            }
+            article_list.append(item)
+        return article_list
 
 class BlogViewSet(ModelViewSet):
     queryset = Article.objects.all()
@@ -183,13 +220,14 @@ def upload_file(request,*args,**kwargs):
     else:
         return Response(True)
 
-class PersonView(ListAPIView):
+class PersonView(ListAPIView,BlogBase):
 
     def get_serializer_class(self,type):
         pass
 
     def list(self, request, *args, **kwargs):
         author_id = request.GET.get("author_id")
+        condition = request.GET.get("condition",None)
         attention_count = 0
         follower_count = 0
         if author_id:
@@ -202,26 +240,11 @@ class PersonView(ListAPIView):
                 attention_count = author.user.count()
                 follower_count = author.follower.count()
         categories = author.author.all()
-        article_list = []
-        for category in categories:
-            for article in category.article_set.all():
-                compliment_count = article.compliment_set.count()
-                comment_count = article.comment_set.count()
-                collection_count = article.article.count()
-                item = {
-                    "title":article.title,
-                    "body":article.body,
-                    "pub_time":article.pub_time.strftime("%Y-%m-%d %H-%M-%S"),
-                    "compliment_count":compliment_count,
-                    "comment_count":comment_count,
-                    "views":article.views,
-                    "collection_count":collection_count
-                }
-                article_list.append(item)
+        article_list = self.get_extra_article_info_by_user(author,condition=condition)
         collection_count = author.collection.all().count()
         categories = ArticleCategoryIndexSerializer(categories,many=True).data
-        author = UserForArticleDetailSerializer(author).data
         concerned_count = Attention.objects.filter(user=request.user,follower=author).count()
+        author = UserForArticleDetailSerializer(author).data
         is_concerned = False if not concerned_count else True
         data = {
             "attentionCount":attention_count,
@@ -235,3 +258,22 @@ class PersonView(ListAPIView):
         data = json.dumps(data)
         return Response(data=data,status=status.HTTP_200_OK)
 
+class BlogSetByAuthorView(ReadOnlyModelViewSet,BlogBase):
+    queryset = BlogUser.objects.all()
+
+    def list(self, request, *args, **kwargs):
+        author_id = request.GET.get("id")
+        condition = request.GET.get("condition",None)
+        condition = int(condition) if condition is not None else None
+        author = self.queryset.get(pk=author_id)
+        follower_count = author.follower.count()
+        article_list = self.get_extra_article_info_by_user(author,condition=condition)
+        data = {
+            "author":UserForArticleDetailSerializer(author).data,
+            "follower_count":follower_count,
+            "articles":article_list
+        }
+        data = json.dumps(data)
+        return Response(
+            data=data
+        )
